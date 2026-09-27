@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 // Fetches portfolio content from the FastAPI backend.
 // Returns null on failure so the caller can fall back to local data —
