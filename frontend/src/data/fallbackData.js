@@ -1,19 +1,19 @@
 // Mirrors the shape returned by GET /api/portfolio.
-// Used automatically if the FastAPI backend isn't reachable.
+// Used automatically if the FastAPI backend isn't reachable, so the
+// frontend still renders during local development or a frontend-only deploy.
 const fallbackData = {
   profile: {
     name: "Saad Elmilouay",
     tagline:
-      "Computer science student building applied ML systems and full-stack software — from cross-resolution vehicle re-identification research to secure institutional platforms.",
+      "Full-stack software developer with experience shipping internal tools, web platforms, and applied ML systems.",
     email: "S.Elmilouay@aui.ma",
     github: "https://github.com/elmilouaysaad",
     linkedin: "https://www.linkedin.com/in/saad-elmilouay-49855a274",
-    location: "Ifrane, Morocco",
+    location: "Marrakech, Morocco",
   },
   stats: [
-    { value: "+25.9%", label: "retrieval accuracy vs. best baseline (CRCD)" },
-    { value: "4×", label: "smaller model, 4× fewer FLOPs" },
-    { value: "2.54ms", label: "CPU inference latency" },
+    { value: "3.85/4", label: "GPA" },
+    { value: "Computer Vision", label: "AI Specialization" },
   ],
   projects: [
     {
@@ -34,7 +34,7 @@ const fallbackData = {
         { value: "2.54ms", label: "CPU latency" },
       ],
       featured: true,
-      link: "https://github.com/elmilouaysaad",
+      link: "https://github.com/elmilouaysaad/CRCD-Cross-Resolution-Contrastive-Loss.git",
     },
     {
       title: "Estus",
@@ -46,16 +46,40 @@ const fallbackData = {
         "Implemented Role-Based Access Control (RBAC) and end-to-end encryption to secure sensitive patient data.",
       ],
       featured: false,
+      link: "https://github.com/elmilouaysaad/Estus.git",
     },
     {
-      title: "Institutional Systems — Al Akhawayn University",
+      title: "Wayfinding System — Al Akhawayn University",
       period: "2025 – 2026",
       stack: "LeafletJs",
       description:
         "Built as part-time software developer for the university's internal communication department.",
       bullets: [
         "A wayfinding application using LeafletJs to streamline navigation across the institutional campus.",
-        "A secure communication portal with end-to-end anonymity, enabling confidential staff reporting and improving organizational transparency.",
+      ],
+      featured: false,
+    },
+    {
+      title: "Suggestion/Complaint System — Al Akhawayn University",
+      period: "2026",
+      stack: "Node.js, React, PostgreSQL",
+      description:
+        "Built as part-time software developer for the university's internal communication department.",
+      bullets: [
+        "A secure staff reporting portal for submitting suggestions and complaints, ensuring a safe and confidential environment for feedback.",
+        "Ensures ease of use and accessibility for all staff members, promoting a culture of open communication.",
+        "Provides a Dashboard for administrators to view and analyze the feedback.",
+      ],
+      featured: false,
+    },
+    {
+      title: "Event Feedback System — Al Akhawayn University",
+      period: "2026",
+      stack: "React, PostgreSQL",
+      description:
+        "Built as part-time software developer for the university's internal communication department.",
+      bullets: [
+        "A feedback system for events organized by the university, allowing attendees to provide their opinions and suggestions.",
       ],
       featured: false,
     },
@@ -97,6 +121,11 @@ const fallbackData = {
       org: "University of Helsinki · Helsinki, Finland",
       period: "2025",
     },
+    {
+      title: "High School Diploma - Mathematics",
+      org: "Hassan the Second High School · Marrakech, MA",
+      period: "2022",
+    },
   ],
   skills: {
     Languages: ["Python", "C", "SQL (Postgres)", "JavaScript", "HTML/CSS", "Java"],
@@ -104,12 +133,10 @@ const fallbackData = {
     "Developer tools": ["Git", "Docker", "VS Code", "Visual Studio"],
     Libraries: ["pandas", "NumPy", "Matplotlib", "scikit-learn"],
   },
-  // Spoken languages. Adjust names, levels, and add/remove as needed.
   languages: [
     { name: "Arabic", level: "Native" },
-    { name: "English", level: "Fluent · C1" },
-    { name: "French", level: "Fluent · C1" },
-    { name: "Spanish", level: "Intermediate · B1" },
+    { name: "English", level: "C1" },
+    { name: "French", level: "B2" },
   ],
 };
 
