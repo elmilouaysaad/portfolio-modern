@@ -255,9 +255,9 @@ PORTFOLIO_DATA = Portfolio(
 )
 
 
-@app.get("/api/portfolio", response_model=Portfolio)
+@app.get("/portfolio", response_model=Portfolio)
+@app.get("/api/portfolio", response_model=Portfolio, include_in_schema=False)
 def get_portfolio():
-    """Return the full portfolio content in one call."""
     return PORTFOLIO_DATA
 
 

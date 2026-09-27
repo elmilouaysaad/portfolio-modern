@@ -4,6 +4,35 @@ import Globe from "./Globe";
 const MONO = "'IBM Plex Mono', ui-monospace, monospace";
 
 export default function Hero({ profile, stats }) {
+  if (!profile) {
+    return (
+      <Box
+        id="hero"
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          minHeight: { xs: "auto", md: "min(88vh, 900px)" },
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Container maxWidth="lg" sx={{ py: { xs: 10, md: 14 } }}>
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: MONO,
+              fontSize: { xs: "2.4rem", md: "3.6rem" },
+              color: "text.secondary",
+              opacity: 0.3,
+            }}
+          >
+            Loading…
+          </Typography>
+        </Container>
+      </Box>
+    );
+  }
+
   return (
     <Box
       id="hero"
@@ -15,30 +44,53 @@ export default function Hero({ profile, stats }) {
         transition: "border-color 0.3s ease",
         display: "flex",
         alignItems: "center",
-        // Full-height on most screens, capped so huge monitors don't get
-        // an absurdly tall hero.
-        minHeight: { xs: "auto", md: "min(75vh, 760px)" },
+        minHeight: { xs: "auto", md: "min(88vh, 900px)" },
       }}
     >
+      {/* Globe layer — fills the hero, centers its child on small screens,
+          right-aligns it on large. */}
       <Box
         aria-hidden
         sx={{
           position: "absolute",
-          top: "50%",
-          right: { lg: "-18%", xl: "-8%" },
-          transform: "translateY(-50%)",
-          width: { lg: "72vmin", xl: "82vmin" },
-          height: { lg: "72vmin", xl: "82vmin" },
-          maxWidth: 960,
-          maxHeight: 960,
-          display: { xs: "none", lg: "block" },
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: { xs: "center", lg: "flex-end" },
           pointerEvents: "none",
           userSelect: "none",
           zIndex: 0,
-          opacity: (t) => (t.palette.mode === "dark" ? 0.7 : 0.5),
+          overflow: "hidden",
         }}
       >
-        <Globe />
+        <Box
+          sx={{
+            // Small screens: big, centered. Desktop: smaller, pushed to the right edge.
+            width: {
+              xs: "min(120vmin, 110vw)",
+              md: "min(95vmin, 85vw)",
+              lg: "72vmin",
+            },
+            height: {
+              xs: "min(120vmin, 110vw)",
+              md: "min(95vmin, 85vw)",
+              lg: "72vmin",
+            },
+            maxWidth: 960,
+            maxHeight: 960,
+            // On lg+, pull the globe partly off the right edge.
+            mr: { lg: "-18%", xl: "-8%" },
+            flexShrink: 0,
+            opacity: (t) => {
+              if (t.palette.mode === "dark") {
+                return { xs: 0.55, lg: 0.7 };
+              }
+              return { xs: 0.4, lg: 0.5 };
+            },
+          }}
+        >
+          <Globe />
+        </Box>
       </Box>
 
       <Container

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Box } from "@mui/material";
 
+// 60 cols x 30 rows. 6° per cell.
+// Row 0 = 90°N..84°N  →  Row 29 = 84°S..90°S
+// Col 0 = 180°W..174°W →  Col 59 = 174°E..180°E
 const LAND_MASK = [
   "............................................................",
   "...............#############...####..........###............",

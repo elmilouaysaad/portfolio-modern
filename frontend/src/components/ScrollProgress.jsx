@@ -186,18 +186,7 @@ function ConfettiBurst() {
             "--ty": `${p.y}px`,
             "--rot": `${p.rot}deg`,
             animation: `confettiPop ${p.duration}s cubic-bezier(0.15, 0.8, 0.3, 1) ${p.delay}s forwards`,
-            "@keyframes confettiPop": {
-              "0%": {
-                opacity: 1,
-                transform: "translate(-50%, -50%) rotate(0deg) scale(0.8)",
-              },
-              "15%": { opacity: 1 },
-              "100%": {
-                opacity: 0,
-                transform:
-                  "translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(var(--rot)) scale(1)",
-              },
-            },
+            
           }}
         />
       ))}

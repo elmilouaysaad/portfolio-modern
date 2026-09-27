@@ -41,10 +41,9 @@ export default function App() {
     };
   }, []);
 
-  if (loading) {
-    return <LinearProgress color="secondary" />;
-  }
-
+  if (loading || !data?.profile) {
+  return <LinearProgress color="secondary" />;
+}
   return (
     <Box sx={{ position: "relative", zIndex: 1 }}>
       <CustomCursor />
