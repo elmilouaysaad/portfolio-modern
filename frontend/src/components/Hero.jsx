@@ -47,7 +47,6 @@ export default function Hero({ profile, stats }) {
         minHeight: { xs: "auto", md: "min(88vh, 900px)" },
       }}
     >
-      {/* Globe layer — desktop only (lg+), right-anchored. */}
       <Box
         aria-hidden
         sx={{
@@ -102,6 +101,28 @@ export default function Hero({ profile, stats }) {
             sx={{ fontSize: { xs: "2.4rem", md: "3.6rem" }, lineHeight: 1.05, mb: 2.5 }}
           >
             {profile.name}
+            {/* Blinking terminal caret */}
+            <Box
+              component="span"
+              aria-hidden
+              sx={{
+                display: "inline-block",
+                width: "0.55ch",
+                ml: "0.15ch",
+                transform: "translateY(-0.05em)",
+                animation: "caretBlink 1.05s steps(1) infinite",
+                "@keyframes caretBlink": {
+                  "0%, 49%": { opacity: 1 },
+                  "50%, 100%": { opacity: 0 },
+                },
+                "@media (prefers-reduced-motion: reduce)": {
+                  animation: "none",
+                  opacity: 1,
+                },
+              }}
+            >
+              ▌
+            </Box>
           </Typography>
           <Typography
             variant="body1"
@@ -111,7 +132,6 @@ export default function Hero({ profile, stats }) {
             {profile.tagline}
           </Typography>
 
-          {/* Contact links — stacked on mobile, row on sm+. */}
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={{ xs: 0.75, sm: 1.5 }}
