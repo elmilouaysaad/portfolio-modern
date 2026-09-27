@@ -47,16 +47,15 @@ export default function Hero({ profile, stats }) {
         minHeight: { xs: "auto", md: "min(88vh, 900px)" },
       }}
     >
-      {/* Globe layer — fills the hero, centers its child on small screens,
-          right-aligns it on large. */}
+      {/* Globe layer — desktop only (lg+), right-anchored. */}
       <Box
         aria-hidden
         sx={{
           position: "absolute",
           inset: 0,
-          display: "flex",
+          display: { xs: "none", lg: "flex" },
           alignItems: "center",
-          justifyContent: { xs: "center", lg: "flex-end" },
+          justifyContent: "flex-end",
           pointerEvents: "none",
           userSelect: "none",
           zIndex: 0,
@@ -65,28 +64,13 @@ export default function Hero({ profile, stats }) {
       >
         <Box
           sx={{
-            // Small screens: big, centered. Desktop: smaller, pushed to the right edge.
-            width: {
-              xs: "min(120vmin, 110vw)",
-              md: "min(95vmin, 85vw)",
-              lg: "72vmin",
-            },
-            height: {
-              xs: "min(120vmin, 110vw)",
-              md: "min(95vmin, 85vw)",
-              lg: "72vmin",
-            },
+            width: "72vmin",
+            height: "72vmin",
             maxWidth: 960,
             maxHeight: 960,
-            // On lg+, pull the globe partly off the right edge.
             mr: { lg: "-18%", xl: "-8%" },
             flexShrink: 0,
-            opacity: (t) => {
-              if (t.palette.mode === "dark") {
-                return { xs: 0.55, lg: 0.7 };
-              }
-              return { xs: 0.4, lg: 0.5 };
-            },
+            opacity: (t) => (t.palette.mode === "dark" ? 0.7 : 0.5),
           }}
         >
           <Globe />
@@ -127,13 +111,23 @@ export default function Hero({ profile, stats }) {
             {profile.tagline}
           </Typography>
 
+          {/* Contact links — stacked on mobile, row on sm+. */}
           <Stack
-            direction="row"
-            spacing={1.5}
-            divider={<Box sx={{ color: "divider" }}>·</Box>}
-            sx={{ fontFamily: MONO, fontSize: "0.82rem", mb: 5 }}
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 0.75, sm: 1.5 }}
+            sx={{
+              fontFamily: MONO,
+              fontSize: "0.82rem",
+              mb: 5,
+              alignItems: { xs: "flex-start", sm: "center" },
+            }}
           >
-            <Link href={`mailto:${profile.email}`} color="text.primary" underline="hover">
+            <Link
+              href={`mailto:${profile.email}`}
+              color="text.primary"
+              underline="hover"
+              sx={{ wordBreak: "break-all" }}
+            >
               {profile.email}
             </Link>
             <Link
@@ -142,6 +136,7 @@ export default function Hero({ profile, stats }) {
               rel="noopener"
               color="text.primary"
               underline="hover"
+              sx={{ wordBreak: "break-all" }}
             >
               {profile.github.replace("https://", "")}
             </Link>
