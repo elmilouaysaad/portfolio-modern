@@ -3,14 +3,15 @@ import { Box } from "@mui/material";
 
 const MONO = "'IBM Plex Mono', ui-monospace, monospace";
 
-// Confetti colors — pulled from the editor palette so it fits the theme.
 const CONFETTI_COLORS = ["#58A6FF", "#3FB950", "#D29922", "#F778BA", "#79C0FF"];
 
 export default function ScrollProgress() {
   const [progress, setProgress] = useState(0);
   const [burstKey, setBurstKey] = useState(0);
+  const [scrolling, setScrolling] = useState(false);
   const armedRef = useRef(true);
   const rafRef = useRef(0);
+  const scrollStopRef = useRef(0);
 
   useEffect(() => {
     const update = () => {
@@ -24,8 +25,6 @@ export default function ScrollProgress() {
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
-      // Fire the confetti once when we reach the bottom, then re-arm when
-      // the user scrolls back up away from the edge.
       if (!prefersReduced) {
         const atBottom = p > 0.985;
         if (atBottom && armedRef.current) {
@@ -38,6 +37,12 @@ export default function ScrollProgress() {
     };
 
     const onScroll = () => {
+      setScrolling(true);
+      if (scrollStopRef.current) clearTimeout(scrollStopRef.current);
+      scrollStopRef.current = window.setTimeout(() => {
+        setScrolling(false);
+      }, 400);
+
       if (!rafRef.current) rafRef.current = requestAnimationFrame(update);
     };
 
@@ -46,6 +51,7 @@ export default function ScrollProgress() {
     window.addEventListener("resize", onScroll);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (scrollStopRef.current) clearTimeout(scrollStopRef.current);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
@@ -53,6 +59,9 @@ export default function ScrollProgress() {
 
   const pct = Math.round(progress * 100);
   const nearEdges = progress < 0.02 || progress > 0.985;
+
+  // Idle label is barely-there; scrolling reveals it.
+  const labelOpacity = nearEdges ? 0 : scrolling ? 1 : 0.12;
 
   return (
     <Box
@@ -91,7 +100,7 @@ export default function ScrollProgress() {
         }}
       />
 
-      {/* Diamond marker riding the head of the fill */}
+      {/* Diamond marker */}
       <Box
         sx={{
           position: "absolute",
@@ -107,7 +116,7 @@ export default function ScrollProgress() {
         }}
       />
 
-      {/* Percentage readout that follows the marker */}
+      {/* Percentage readout — faint when idle, clear when scrolling */}
       <Box
         sx={{
           position: "absolute",
@@ -127,14 +136,14 @@ export default function ScrollProgress() {
           border: "1px solid",
           borderColor: "divider",
           whiteSpace: "nowrap",
-          transition: "left 0.06s linear, opacity 0.2s ease",
-          opacity: nearEdges ? 0 : 1,
+          transition:
+            "left 0.06s linear, opacity 0.35s ease",
+          opacity: labelOpacity,
         }}
       >
         {pct}%
       </Box>
 
-      {/* Confetti burst — keyed so it remounts and replays on every fire */}
       {burstKey > 0 && <ConfettiBurst key={burstKey} />}
     </Box>
   );
@@ -185,8 +194,7 @@ function ConfettiBurst() {
             "--tx": `${p.x}px`,
             "--ty": `${p.y}px`,
             "--rot": `${p.rot}deg`,
-            animation: `confettiPop ${p.duration}s cubic-bezier(0.15, 0.8, 0.3, 1) ${p.delay}s forwards`,
-            
+            animation: `confettiPop ${p.duration}s cubic-bezier(0.15, 0.8, 0.3, 1) ${p.delay}s both`,
           }}
         />
       ))}
