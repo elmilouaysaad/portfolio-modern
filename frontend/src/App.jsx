@@ -14,8 +14,8 @@ import CustomCursor from "./components/CustomCursor";
 import SidePins from "./components/SidePins";
 import Reveal from "./components/Reveal";
 import ScrollProgress from "./components/ScrollProgress";
+import CRTOverlay from "./components/CRTOverlay";
 
-// Order matches the on-page order below.
 const PIN_SECTIONS = [
   { id: "hero", label: "Intro" },
   { id: "work", label: "Work" },
@@ -42,12 +42,14 @@ export default function App() {
   }, []);
 
   if (loading || !data?.profile) {
-  return <LinearProgress color="secondary" />;
-}
+    return <LinearProgress color="secondary" />;
+  }
+
   return (
     <Box sx={{ position: "relative", zIndex: 1 }}>
       <CustomCursor />
       <ScrollProgress />
+      <CRTOverlay />
       <Nav name={data.profile.name} />
       <SidePins sections={PIN_SECTIONS} />
       <Hero profile={data.profile} stats={data.stats} />
